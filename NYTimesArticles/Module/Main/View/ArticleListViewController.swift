@@ -10,6 +10,8 @@ import UIKit
 class ArticleListViewController: UIViewController {
     // MARK: IbOutLet
     @IBOutlet weak var articleListTableView: UITableView!
+    @IBOutlet weak var noDataView: UIView!
+    
     // MARK: varibles
     private var mainViewModel: MainViewModel?
 
@@ -30,7 +32,7 @@ class ArticleListViewController: UIViewController {
     }
     //this function from init view model and add callBack function logic from binding btween view and view model which will happend when api response come from webserice
     private func callToViewModelForUIUpdate(){
-        self.mainViewModel =  MainViewModel()
+        self.mainViewModel = MainViewModel()
         self.mainViewModel?.bindMainViewModelToController = {
             self.updateDataSource()
             return self
@@ -40,19 +42,18 @@ class ArticleListViewController: UIViewController {
     private func updateDataSource(){
         if mainViewModel?.articlesArray?.count ?? 0 > 0{
             articleListTableView.reloadData()
+        } else {
+            noDataView.isHidden = false
         }
     }
         
 }
-// MARK: view model Action handling
-extension ArticleListViewController {
-    func pushToView(view: UIViewController) {
-        self.navigationController?.pushViewController(view, animated: true)
-    }
-    
-}
+
 // MARK: extention for TableViewDelegate
 extension ArticleListViewController:UITableViewDelegate {
+    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+        return 70.0
+    }
     
 }
 // MARK: extention for TableviewDataSource

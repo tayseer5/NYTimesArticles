@@ -12,7 +12,7 @@ protocol viewBindDelegate {
 }
 
 /// view model for main screen will hides all asynchronous networking code, data preparation code for visual presentation, and code listening for Model changes.  
-/// once view model receive response and prepare data it will notify view throught binding 
+/// once view model receive response and prepare data it will notify view throught binding and binding function will return a confirmation for viewModelbinding  protocol
 class  MainViewModel: NSObject {
     // MARK: Varibles
     //this is object from networkManager
@@ -41,6 +41,7 @@ class  MainViewModel: NSObject {
     // MARK: Helping Functions
     // Api Call for article list
     func getMostPopularArticle() {
+        
         self.apiService?.getMostPopularNYArticles(period: 1) { result in
             switch result {
                     case .success(let response):
@@ -55,11 +56,13 @@ class  MainViewModel: NSObject {
 }
 // MARK: View Event Notifer
 extension MainViewModel{
+    // this function called from view to inform ViewModel that there was selected happend
     func selectArticle (at index: Int)  {
         if let articles = articlesArray , articles.count > index {
             let articleDetailsViewController = UIStoryboard.init(name: "Main", bundle: Bundle.main).instantiateViewController(withIdentifier: "ArticleDetailsViewController") as? ArticleDetailsViewController
             let articleDetailsViewModel: ArticleDetailsViewModel = ArticleDetailsViewModel(article:articles[index])
             articleDetailsViewController?.articleDetailsViewModel = articleDetailsViewModel
+            // after view model finish logic of get model after selection raw and init view mode and view of details screen it pass it to view to push it by calling delegate which view confirm 
             self.viewBindDelegate?.pushToView(viewController: articleDetailsViewController ?? UIViewController())
             
         }

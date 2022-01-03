@@ -2,7 +2,8 @@
 
 target 'NYTimesArticles' do
  pod 'Moya', '~> 15.0'
- pod 'Alamofire', '~> 5.5'
+ # kindFisher one of best libraries for render image cashing and handling placholder
+ pod 'Kingfisher', '~> 7.0'
 end
 
 post_install do |installer|

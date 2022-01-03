@@ -9,7 +9,6 @@ import Foundation
 class  ArticleDetailsViewModel: NSObject {
     // MARK: Varibles
     var article :Article
-    
     init(article: Article) {
             self.article = article
             super.init()

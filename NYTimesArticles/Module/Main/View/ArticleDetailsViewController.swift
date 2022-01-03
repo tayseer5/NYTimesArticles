@@ -14,6 +14,7 @@ class ArticleDetailsViewController: UIViewController {
     @IBOutlet weak var publishDateLabel: UILabel!
     @IBOutlet weak var sectionLabel: UILabel!
     @IBOutlet weak var detailsLabel: UILabel!
+    @IBOutlet weak var articleImageView: UIImageView!
     // MARK: varibles
     var articleDetailsViewModel: ArticleDetailsViewModel?
     // MARK: LifeCycle
@@ -27,10 +28,20 @@ class ArticleDetailsViewController: UIViewController {
     }
     // MARK: Helping Function
     private func displayData () {
-        titleLabel.text = articleDetailsViewModel?.article.title
-        sourceLabel.text = articleDetailsViewModel?.article.source
-        publishDateLabel.text = articleDetailsViewModel?.article.publishedDate
-        sectionLabel.text = articleDetailsViewModel?.article.section
-        detailsLabel.text = articleDetailsViewModel?.article.abstract
+        titleLabel.text = "Title: \(articleDetailsViewModel?.article.title ?? "UnDefine")"
+        sourceLabel.text = "Source: \(articleDetailsViewModel?.article.source ?? "UnDefine")"
+        publishDateLabel.text = "Date: \(articleDetailsViewModel?.article.publishedDate ?? "UnDefine" )"
+        sectionLabel.text = "Section: \(articleDetailsViewModel?.article.section ?? "UnDefine")"
+        detailsLabel.text = "Details:\(articleDetailsViewModel?.article.abstract ?? "UnDefine")"
+        if articleDetailsViewModel?.article.media?.count ?? 0 > 0 ,  articleDetailsViewModel?.article.media?[0].mediaMetadata?.count ?? 0 > 0{
+            let url = URL(string: articleDetailsViewModel?.article.media?[0].mediaMetadata?[0].url ?? "")
+            articleImageView.kf.setImage(
+                with: url,
+                placeholder: UIImage(named: "NYTIcon"),
+                options: [
+                    .transition(.fade(1)),
+                    .cacheOriginalImage
+                ])
+        }
     }
 }
